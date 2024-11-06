@@ -1,0 +1,93 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Arranque seguro Linux</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="GonzaloPulido_BIOS"
+                  title="Arranque seguro Linux"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="1. Añadir una Contraseña para Proteger GRUB 2" duration="0">
+        <p>Configuraremos una contraseña para restringir el acceso a las opciones avanzadas de GRUB y evitar que usuarios no autorizados cambien los parámetros de arranque.</p>
+<p>Primero abrimos el archivo 40_custom para añadir la configuracion de contraseña.</p>
+<pre><code language="language-bash" class="language-bash">    sudo nano /etc/grub.d/40_custom
+</code></pre>
+<p>Añadiremos en este archivo las siguientes lineas para establecer el usuario y la contraseña de GRUB.</p>
+<pre><code language="language-plaintext" class="language-plaintext">    set superusers=&#34;root&#34;
+    password root CONTRASEÑA
+</code></pre>
+<p>Y sustituiremos CONTRASEÑA por la clave segura que queramos.</p>
+<p class="image-container"><img src="img/db4b2d5b53f01261.png"></p>
+<p>Despues de editar el archivo 40_custom, pasaremos a cifrar la contraseña. Generamos el hash en la terminal con el siguiente comando.</p>
+<pre><code language="language-bash" class="language-bash">    sudo grub-mkpasswd-pbkdf2
+</code></pre>
+<p>GRUB generará un hash, el cual, copiaremos.</p>
+<p>Volvemos a abrir el archivo 40_custom para sustituir la linea pasword root CONTRASEÑA por la siguiente.</p>
+<pre><code language="language-plaintext" class="language-plaintext">    password_pbkdf2 root &lt;HASH_GENERADO&gt;
+</code></pre>
+<p>Sustituiremos HASH_GENERADO por el hash que copiamos anteriormente.</p>
+<p class="image-container"><img src="img/3c3f80255962bd87.png"></p>
+<p>Por ultimo, ejecutamos el siguiente comando para generar el archivo de configuración de GRUB y aplicar los cambios.</p>
+<pre><code language="language-bash" class="language-bash">    sudo update-grub
+</code></pre>
+<p class="image-container"><img src="img/91e2584a2ef43cfc.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="2. Proteger los Permisos del Archivo de Configuración de GRUB" duration="0">
+        <p>En este paso, vamos a asegurar el archivo de configuracion, cambiando sus permisos para que solo el usuario root tenga acceso. Para ello, ejecutamos el siguiente comando.</p>
+<pre><code language="language-bash" class="language-bash">    sudo chmod 700 /etc/grub.d/40_custom
+</code></pre>
+<p class="image-container"><img src="img/a4a4de5e887841b5.png"></p>
+<p>Esto limitará el acceso a este archivo únicamente al usuario root, impidiendo que otros usuarios lo modifiquen.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="3. Ocultar el Menú de GRUB 2 en el Arranque" duration="0">
+        <p>Para evitar que el menú de GRUB 2 sea visible durante el arranque y reducir el riesgo de acceso no autorizado, podemos reducir el tiempo de visualización a cero segundos.</p>
+<p>Para ello, abrimos el archivo de cconfiguracion de GRUB con el siguiente comando.</p>
+<pre><code language="language-bash" class="language-bash">    sudo nano /etc/default/grub
+</code></pre>
+<p>Configuramos el tiempo de espera del menu de GRUB escribiendo lo siguiente.</p>
+<pre><code language="language-plaintext" class="language-plaintext">    GRUB_TIMEOUT=0
+</code></pre>
+<p class="image-container"><img src="img/1abe4d080ee6a304.png"></p>
+<p>Por ultimo, guardamos el archivo de configuracion de grub con el siguiente comando.</p>
+<pre><code language="language-bash" class="language-bash">    sudo update-grub
+</code></pre>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>

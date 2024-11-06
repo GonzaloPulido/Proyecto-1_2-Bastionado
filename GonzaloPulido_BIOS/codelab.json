@@ -1,0 +1,24 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2024-11-05T17:56:04+01:00",
+  "id": "GonzaloPulido_BIOS",
+  "duration": 0,
+  "title": "Arranque seguro Linux",
+  "summary": "Proyecto BIOS",
+  "source": "codelab.md",
+  "theme": "",
+  "status": [
+    "draft"
+  ],
+  "category": [
+    "codelab",
+    "markdown"
+  ],
+  "tags": [
+    "web"
+  ],
+  "url": "GonzaloPulido_BIOS"
+}
